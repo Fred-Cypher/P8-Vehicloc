@@ -1,0 +1,39 @@
+{% extends 'home.html.twig' %}
+
+{% block title %}
+    Véhicloc - Ajouter une voiture
+{% endblock %}
+
+{% block body %}
+    <section id="add">
+        <a href="{{ path('app_home') }}">← Retour</a>
+        <h1>Ajouter une voiture</h1>
+        {{ form_start(form) }}
+            <div class="input">
+                {{ form_row(form.name) }}
+            </div>
+            <div class="input">
+                {{ form_row(form.description) }}
+            </div>
+            <div class="flex-input">
+                <div class="input">
+                    {{ form_row(form.monthly_price) }}
+                </div>
+                <div class="input">
+                    {{ form_row(form.daily_price) }}
+                </div>
+            </div>
+            <div class="flex-input">
+                <div class="input">
+                    {{ form_row(form.places) }}
+                </div>
+                <div class="input">
+                    {{ form_row(form.gearbox) }}
+                </div>
+            </div>
+            <p>
+                <button type="submit" class="btn-add">Ajouter</button>
+            </p>
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

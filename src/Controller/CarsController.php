@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Car;
+use App\Form\CarTypeForm;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -39,7 +42,7 @@ class CarsController extends AbstractController
         ]);
     }
 
-    #[Route('car/{id}/delete', name: 'app_car_delete', )]
+    #[Route('car/{id}/delete', name: 'app_car_delete')]
     public function deleteCar(int $id): Response
     {
         $car = $this->carRepository->find($id);
@@ -52,5 +55,28 @@ class CarsController extends AbstractController
         $this->em->flush();
 
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('add', name: 'app_add_car')]
+    public function addCar(Request $request, CarRepository $carRepository): Response
+    {
+        $car = new Car();
+
+        $form = $this->createForm(CarTypeForm::class, $car);
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()){
+            $car = $form->getData();
+
+            $this->em->persist($car);
+            $this->em->flush();
+
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('addCar.html.twig', [
+            'car' => $car,
+            'form' => $form->createView(),
+        ]);
     }
 }
