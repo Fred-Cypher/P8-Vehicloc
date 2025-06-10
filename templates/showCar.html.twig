@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+    Véhicloc - {{ car.name }}
+{% endblock %}
+
 {% block body %}
     <section id="car">
         <a href="{{ path('app_home') }}">← Retour</a>
